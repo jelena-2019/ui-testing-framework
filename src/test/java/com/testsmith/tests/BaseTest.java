@@ -2,16 +2,19 @@ package com.testsmith.tests;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
 import com.testsmith.config.DriverManager;
 import com.testsmith.config.ConfigProperties;
+import com.testsmith.extensions.ScreenshotExtension;
 
 /**
  * Base Test Class
  * Contains setup and teardown methods for all tests
  */
+@ExtendWith(ScreenshotExtension.class)
 public class BaseTest {
 
     protected WebDriver driver;
@@ -20,7 +23,7 @@ public class BaseTest {
     /**
      * Setup method - runs before each test
      */
-    @BeforeMethod
+    @BeforeEach
     public void setUp() {
         logger.info("======================================");
         logger.info("Test Setup Started");
@@ -37,7 +40,7 @@ public class BaseTest {
     /**
      * Teardown method - runs after each test
      */
-    @AfterMethod
+    @AfterEach
     public void tearDown() {
         logger.info("======================================");
         logger.info("Test Teardown Started");

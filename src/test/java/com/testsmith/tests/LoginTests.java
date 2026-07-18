@@ -2,11 +2,11 @@ package com.testsmith.tests;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.testng.annotations.Test;
-import org.testng.annotations.BeforeMethod;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import static org.assertj.core.api.Assertions.assertThat;
 import com.testsmith.config.ConfigProperties;
-import com.testsmith.constants.AppConstants;
 import com.testsmith.pages.LoginPage;
 import com.testsmith.utils.ScreenshotUtils;
 
@@ -18,6 +18,7 @@ import com.testsmith.utils.ScreenshotUtils;
  * AC1.1: User receives error message with invalid credentials
  * AC1.2: User sees login form elements on page load
  */
+@DisplayName("AC1 - User Login Tests")
 public class LoginTests extends BaseTest {
 
     private static final Logger logger = LogManager.getLogger(LoginTests.class);
@@ -26,7 +27,7 @@ public class LoginTests extends BaseTest {
     /**
      * Setup method for login tests
      */
-    @BeforeMethod
+    @BeforeEach
     @Override
     public void setUp() {
         super.setUp();
@@ -37,7 +38,8 @@ public class LoginTests extends BaseTest {
     /**
      * AC1.1: Test successful login with valid credentials
      */
-    @Test(description = "AC1.1 - Verify user can login with valid credentials")
+    @Test
+    @DisplayName("AC1.1 - Verify user can login with valid credentials")
     public void testLoginWithValidCredentials() {
         logger.info("Test: Login with valid credentials - STARTED");
 
@@ -89,7 +91,8 @@ public class LoginTests extends BaseTest {
     /**
      * AC1.2: Test login with invalid credentials displays error
      */
-    @Test(description = "AC1.2 - Verify error message appears with invalid credentials")
+    @Test
+    @DisplayName("AC1.2 - Verify error message appears with invalid credentials")
     public void testLoginWithInvalidCredentials() {
         logger.info("Test: Login with invalid credentials - STARTED");
 
@@ -135,7 +138,8 @@ public class LoginTests extends BaseTest {
     /**
      * AC1.3: Test login page elements are loaded
      */
-    @Test(description = "AC1.3 - Verify login page displays all required elements")
+    @Test
+    @DisplayName("AC1.3 - Verify login page displays all required elements")
     public void testLoginPageElementsLoaded() {
         logger.info("Test: Login page elements loaded - STARTED");
 
@@ -172,7 +176,8 @@ public class LoginTests extends BaseTest {
     /**
      * AC1.4: Test empty email field validation
      */
-    @Test(description = "AC1.4 - Verify validation error when email field is empty")
+    @Test
+    @DisplayName("AC1.4 - Verify validation error when email field is empty")
     public void testLoginWithEmptyEmail() {
         logger.info("Test: Login with empty email - STARTED");
 
@@ -201,7 +206,8 @@ public class LoginTests extends BaseTest {
     /**
      * AC1.5: Test empty password field validation
      */
-    @Test(description = "AC1.5 - Verify validation error when password field is empty")
+    @Test
+    @DisplayName("AC1.5 - Verify validation error when password field is empty")
     public void testLoginWithEmptyPassword() {
         logger.info("Test: Login with empty password - STARTED");
 

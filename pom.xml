@@ -11,16 +11,28 @@
     <packaging>jar</packaging>
 
     <name>Practice Software Testing - UI Testing Framework</name>
-    <description>Java-based UI testing framework using Selenium, TestNG, and Page Object Model</description>
+    <description>Java-based UI testing framework using Selenium, JUnit 5, and Page Object Model</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <selenium.version>4.15.0</selenium.version>
-        <testng.version>7.8.1</testng.version>
+        <junit.version>5.9.3</junit.version>
         <log4j.version>2.21.1</log4j.version>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Selenium WebDriver -->
@@ -44,11 +56,24 @@
             <version>5.6.3</version>
         </dependency>
 
-        <!-- TestNG for test execution and reporting -->
+        <!-- JUnit 5 (Jupiter) API -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>${testng.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5 Engine -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- JUnit 5 Params for parametrized tests -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -69,6 +94,7 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>3.24.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -91,9 +117,10 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
                 <configuration>
-                    <suiteXmlFiles>
-                        <suiteXmlFile>testng.xml</suiteXmlFile>
-                    </suiteXmlFiles>
+                    <includes>
+                        <include>**/*Tests.java</include>
+                        <include>**/*Test.java</include>
+                    </includes>
                 </configuration>
             </plugin>
         </plugins>
