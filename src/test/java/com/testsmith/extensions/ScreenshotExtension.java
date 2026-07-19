@@ -42,9 +42,9 @@ public class ScreenshotExtension implements TestWatcher {
     }
 
     @Override
-    public void testSkipped(ExtensionContext context, String reason) {
-        logger.warn("Test Skipped: {}", context.getDisplayName());
-        logger.warn("Reason: {}", reason);
+    public void testDisabled(ExtensionContext context, Optional<String> reason) {
+        logger.warn("Test Disabled: {}", context.getDisplayName());
+        logger.warn("Reason: {}", reason.orElse("No reason provided"));
     }
 
     @Override
