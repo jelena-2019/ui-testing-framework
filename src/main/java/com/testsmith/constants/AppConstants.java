@@ -36,6 +36,9 @@ public class AppConstants {
     public static final String LOGS_PATH = "logs/";
     public static final String TESTDATA_PATH = "src/test/resources/testdata/";
 
+    // API
+    public static final String API_BASE_URL = "https://api.practicesoftwaretesting.com";
+
     // Test Execution
     public static final String TEST_REPORT_PATH = "test-output/";
     public static final String EXTENT_REPORT_PATH = "reports/";

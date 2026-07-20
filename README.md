@@ -1,13 +1,16 @@
 # Practice Software Testing - UI Testing Framework
 
-A comprehensive Java-based UI testing framework using Selenium WebDriver, TestNG, and the Page Object Model pattern. This framework is designed for testing the Practice Software Testing application (https://practicesoftwaretesting.com).
+A comprehensive Java-based UI testing framework using Selenium WebDriver, JUnit 5, and the Page Object Model pattern. This framework is designed for testing the Practice Software Testing application (https://practicesoftwaretesting.com).
 
 ## 📋 Overview
 
 This framework implements best practices for test automation:
 - **Page Object Model (POM)** - Encapsulates page elements and actions
 - **Selenium WebDriver** - Industry-standard UI automation tool
+- **JUnit 5 (Jupiter)** - Modern test framework with lifecycle hooks
 - **WebDriverManager** - Automatic driver management
+- **Allure Reporting** - Rich test reports with steps, screenshots, and metadata
+- **Retry Logic** - Automatic retry for flaky tests via `@Retry` annotation
 - **Log4j2** - Comprehensive logging
 - **AssertJ** - Fluent assertions for better readability
 - **Maven** - Build and dependency management
@@ -37,7 +40,7 @@ ui-testing-framework/
 │   │   └── LoginPage.java                    # Login page object (AC1)
 │   ├── utils/
 │   │   ├── WaitUtils.java                    # Explicit wait utilities
-│   │   └── ScreenshotUtils.java              # Screenshot capture utilities
+│   │   └── ScreenshotUtils.java              # Screenshot capture + Allure attachments
 │   └── constants/
 │       └── AppConstants.java                 # Application constants
 │
@@ -47,17 +50,23 @@ ui-testing-framework/
 │
 ├── src/test/java/com/testsmith/
 │   ├── tests/
-│   │   ├── BaseTest.java                     # Base test class with setup/teardown
-│   │   └── LoginTests.java                   # AC1 login test cases
-│   └── listeners/
+│   │   ├── BaseTest.java                     # Base test with setup/teardown + Allure lifecycle
+│   │   └── LoginTests.java                   # AC1 login test cases with Allure annotations
+│   └── extensions/
+│       ├── Retry.java                        # @Retry annotation definition
+│       ├── RetryExtension.java               # JUnit 5 InvocationInterceptor for retries
+│       └── ScreenshotExtension.java          # Captures + attaches screenshots to Allure on failure
+│
+├── src/test/resources/
+│   └── allure.properties                     # Allure report configuration
 │
 ├── logs/                                      # Test execution logs
-├── screenshots/                               # Failed test screenshots
+└── screenshots/                               # Failed test screenshots
 ```
 
 ## 🛠️ Prerequisites
 
-- **Java 11+**
+- **Java 8+**
 - **Maven 3.6+**
 - **Chrome Browser** (current version)
 - **Git**
@@ -128,16 +137,51 @@ Then run:
 mvn test
 ```
 
+### Generate Allure Report
+```bash
+# Run tests and open interactive report
+mvn clean test allure:serve
+
+# Generate static report only
+mvn allure:report
+```
+
+## 🏷️ Retry Annotation
+
+Use `@Retry` to automatically retry flaky tests:
+
+```java
+@Retry(maxAttempts = 3)  // Retry up to 3 times
+public class MyTest {
+    @Test
+    public void testSomething() { ... }
+}
+```
+
+The retry extension uses reflection to re-invoke test methods, so the full lifecycle (setUp → test → tearDown) runs for each attempt.
+
 ## 📊 Test Reports
 
-After test execution:
+### Allure Report (Recommended)
+After test execution, generate and view the Allure HTML report:
+```bash
+# Generate and open report in browser
+mvn allure:serve
+
+# Or generate static report in target/site/allure-maven/
+mvn allure:report
+```
+
+The Allure report includes:
+- **Epic/Feature/Story** breakdown of test cases
+- **Step-by-step** execution details
+- **Screenshots** attached on test failure
+- **Severity** and **description** metadata
+- **Retry history** showing which tests needed retries
+
+### Other Output
 - **Logs** - Located in `logs/` directory
 - **Screenshots** - Located in `screenshots/` directory (captured on failure)
-
-### View HTML Report
-```bash
-open test-output/index.html
-```
 
 ## 📝 Test Cases - AC1 Details
 
@@ -209,10 +253,29 @@ open test-output/index.html
 - Improves maintainability and readability
 - Reduces code duplication
 
+### Allure Reporting
+- Rich HTML reports with epic/feature/story organization
+- `@Step` annotations on page methods for detailed execution traces
+- `Allure.step()` lambdas for grouped assertions
+- Automatic screenshot attachment on test failure
+- Severity levels (BLOCKER, CRITICAL, NORMAL, MINOR, TRIVIAL)
+- Run `mvn allure:serve` to view the report
+
+### Retry Logic for Flaky Tests
+- `@Retry(maxAttempts = N)` annotation on test classes or methods
+- Uses `InvocationInterceptor` with reflection-based retries
+- Retries entire test lifecycle (setup, test, teardown)
+- Configurable per class or per method
+
 ### Explicit Waits
 - Waits for elements to be visible, clickable, or present
 - Configurable wait times
 - Prevents flaky tests
+
+### Resilient Input Handling
+- `sendText()` in BasePage handles disabled/read-only fields
+- Falls back to `Ctrl+A` when `clear()` fails
+- Falls back to JavaScript `value` injection when `sendKeys()` fails
 
 ### Logging
 - Comprehensive logging with Log4j2
@@ -221,8 +284,8 @@ open test-output/index.html
 
 ### Screenshot Capture
 - Automatic screenshot capture on test failure
+- Attached to Allure report and saved to `screenshots/` directory
 - Timestamped filenames
-- Organized in `screenshots/` directory
 
 ### Configuration Management
 - Externalized test data and configuration
@@ -267,13 +330,14 @@ page.load.timeout=30
 - Implement parallel test execution
 - Add API testing layer
 - Integrate with CI/CD pipeline (GitHub Actions, Jenkins)
-- Add Allure reporting integration
-- Implement retry logic for flaky tests
+- ~~Add Allure reporting integration~~ ✅ Done
+- ~~Implement retry logic for flaky tests~~ ✅ Done
 
 ## 📖 Resources
 
 - [Selenium Documentation](https://www.selenium.dev/documentation/)
-- [TestNG Documentation](https://testng.org/doc/)
+- [JUnit 5 Documentation](https://junit.org/junit5/docs/current/user-guide/)
+- [Allure Report Documentation](https://allurereport.org/docs/)
 - [Page Object Model](https://www.selenium.dev/documentation/test_practices/encouraged/page_object_models/)
 - [Practice Software Testing](https://practicesoftwaretesting.com)
 - [Practice Software Testing User Stories](https://testsmith-io.github.io/practice-software-testing/#/user-stories/v5)
