@@ -74,4 +74,8 @@ public class ConfigProperties {
     public static String getInvalidPassword() {
         return properties.getProperty("invalid.password", "wrongpassword");
     }
+
+    public static String getApiBaseUrl() {
+        return properties.getProperty("api.base.url", "https://api.practicesoftwaretesting.com");
+    }
 }
