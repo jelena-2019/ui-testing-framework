@@ -31,6 +31,8 @@ out/
 test-output/
 logs/
 screenshots/
+allure-results/
+allure-report/
 
 # WebDriver
 .wdm/

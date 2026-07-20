@@ -6,7 +6,6 @@ A comprehensive Java-based UI testing framework using Selenium WebDriver, TestNG
 
 This framework implements best practices for test automation:
 - **Page Object Model (POM)** - Encapsulates page elements and actions
-- **TestNG** - Powerful test execution framework with flexible test configuration
 - **Selenium WebDriver** - Industry-standard UI automation tool
 - **WebDriverManager** - Automatic driver management
 - **Log4j2** - Comprehensive logging
@@ -27,7 +26,6 @@ This framework implements best practices for test automation:
 ```
 ui-testing-framework/
 ├── pom.xml                                    # Maven configuration
-├── testng.xml                                 # TestNG suite configuration
 ├── README.md                                  # This file
 │
 ├── src/main/java/com/testsmith/
@@ -52,11 +50,9 @@ ui-testing-framework/
 │   │   ├── BaseTest.java                     # Base test class with setup/teardown
 │   │   └── LoginTests.java                   # AC1 login test cases
 │   └── listeners/
-│       └── TestListener.java                 # TestNG listener for test events
 │
 ├── logs/                                      # Test execution logs
 ├── screenshots/                               # Failed test screenshots
-└── test-output/                               # TestNG reports
 ```
 
 ## 🛠️ Prerequisites
@@ -109,12 +105,12 @@ invalid.password=wrongpassword
 
 ### Run All Tests
 ```bash
-mvn test
+mvn clean test -X
 ```
 
 ### Run Specific Test Class
 ```bash
-mvn test -Dtest=LoginTests
+mvn clean test -X -Dtest=LoginTests
 ```
 
 ### Run Specific Test Method
@@ -135,7 +131,6 @@ mvn test
 ## 📊 Test Reports
 
 After test execution:
-- **TestNG Reports** - Located in `test-output/` directory
 - **Logs** - Located in `logs/` directory
 - **Screenshots** - Located in `screenshots/` directory (captured on failure)
 
@@ -269,7 +264,6 @@ page.load.timeout=30
 - AC6: Wishlist Management
 
 ### Framework Enhancements
-- Add data-driven testing with TestNG parameters
 - Implement parallel test execution
 - Add API testing layer
 - Integrate with CI/CD pipeline (GitHub Actions, Jenkins)

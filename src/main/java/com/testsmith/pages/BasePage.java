@@ -1,8 +1,10 @@
 package com.testsmith.pages;
 
+import io.qameta.allure.Step;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import com.testsmith.utils.WaitUtils;
@@ -25,6 +27,7 @@ public class BasePage {
     /**
      * Click on element
      */
+    @Step("Click on element: {locator}")
     public void click(By locator) {
         try {
             logger.debug("Clicking on element: {}", locator);
@@ -39,12 +42,24 @@ public class BasePage {
     /**
      * Send text to element
      */
+    @Step("Enter '{text}' into element: {locator}")
     public void sendText(By locator, String text) {
         try {
             logger.debug("Sending text '{}' to element: {}", text, locator);
             WebElement element = waitUtils.waitForElementToBeVisible(locator);
-            element.clear();
-            element.sendKeys(text);
+            try {
+                element.clear();
+            } catch (Exception e) {
+                logger.debug("clear() failed, using select-all instead: {}", locator);
+                element.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+            }
+            try {
+                element.sendKeys(text);
+            } catch (Exception e) {
+                logger.debug("sendKeys() failed, using JavaScript to set value: {}", locator);
+                ((org.openqa.selenium.JavascriptExecutor) driver)
+                        .executeScript("arguments[0].value = arguments[1]", element, text);
+            }
         } catch (Exception e) {
             logger.error("Failed to send text to element: {}", locator, e);
             throw e;
@@ -54,6 +69,7 @@ public class BasePage {
     /**
      * Get text from element
      */
+    @Step("Get text from element: {locator}")
     public String getText(By locator) {
         try {
             logger.debug("Getting text from element: {}", locator);
@@ -66,12 +82,14 @@ public class BasePage {
     }
 
     /**
-     * Check if element is displayed
+     * Check if element is displayed (with explicit wait)
      */
+    @Step("Check if element is displayed: {locator}")
     public boolean isElementDisplayed(By locator) {
         try {
             logger.debug("Checking if element is displayed: {}", locator);
-            return driver.findElement(locator).isDisplayed();
+            WebElement element = waitUtils.waitForElementToBeVisible(locator);
+            return element.isDisplayed();
         } catch (Exception e) {
             logger.debug("Element not displayed: {}", locator);
             return false;
@@ -102,6 +120,7 @@ public class BasePage {
     /**
      * Navigate to URL
      */
+    @Step("Navigate to URL: {url}")
     public void navigateTo(String url) {
         logger.info("Navigating to URL: {}", url);
         driver.navigate().to(url);

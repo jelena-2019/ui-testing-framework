@@ -32,11 +32,11 @@ public class ConfigProperties {
     }
 
     public static long getImplicitWait() {
-        return Long.parseLong(properties.getProperty("implicit.wait", "10"));
+        return Long.parseLong(properties.getProperty("implicit.wait", "20"));
     }
 
     public static long getExplicitWait() {
-        return Long.parseLong(properties.getProperty("explicit.wait", "15"));
+        return Long.parseLong(properties.getProperty("explicit.wait", "20"));
     }
 
     public static boolean isHeadlessMode() {

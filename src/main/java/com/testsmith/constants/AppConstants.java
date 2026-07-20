@@ -8,6 +8,8 @@ public class AppConstants {
 
     // Application URLs
     public static final String BASE_URL = "https://practicesoftwaretesting.com";
+    public static final String OLD_URL = "https://with-bugs.practicesoftwaretesting.com/#/";
+    public static final String HOME_URL = BASE_URL + "/home";
     public static final String LOGIN_URL = BASE_URL + "/auth/login";
     public static final String PRODUCTS_URL = BASE_URL + "/products";
     public static final String CART_URL = BASE_URL + "/cart";
@@ -15,7 +17,7 @@ public class AppConstants {
 
     // Timeouts (in seconds)
     public static final int IMPLICIT_WAIT = 10;
-    public static final int EXPLICIT_WAIT = 15;
+    public static final int EXPLICIT_WAIT = 20;
     public static final int PAGE_LOAD_TIMEOUT = 20;
 
     // Test Data
