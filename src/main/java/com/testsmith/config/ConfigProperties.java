@@ -6,7 +6,9 @@ import java.util.Properties;
 
 /**
  * Configuration Properties Manager
- * Loads and manages test configuration from application.properties
+ * Loads and manages test configuration from application.properties.
+ * System properties (e.g. -Dheadless.mode=true from the Maven CLI or CI)
+ * always take precedence over values defined in application.properties.
  */
 public class ConfigProperties {
 
@@ -23,59 +25,69 @@ public class ConfigProperties {
         }
     }
 
+    /**
+     * Resolves a configuration value. System properties take precedence over
+     * values defined in application.properties, enabling runtime overrides
+     * for CI/CD pipelines.
+     */
+    private static String getProperty(String key, String defaultValue) {
+        String systemValue = System.getProperty(key);
+        return systemValue != null ? systemValue : properties.getProperty(key, defaultValue);
+    }
+
     public static String getBaseUrl() {
-        return properties.getProperty("base.url", "https://practicesoftwaretesting.com");
+        return getProperty("base.url", "https://practicesoftwaretesting.com");
     }
 
     public static String getBrowser() {
-        return properties.getProperty("browser", "chrome");
+        return getProperty("browser", "chrome");
     }
 
     public static long getImplicitWait() {
-        return Long.parseLong(properties.getProperty("implicit.wait", "20"));
+        return Long.parseLong(getProperty("implicit.wait", "20"));
     }
 
     public static long getExplicitWait() {
-        return Long.parseLong(properties.getProperty("explicit.wait", "20"));
+        return Long.parseLong(getProperty("explicit.wait", "20"));
     }
 
     public static boolean isHeadlessMode() {
-        return Boolean.parseBoolean(properties.getProperty("headless.mode", "false"));
+        return Boolean.parseBoolean(getProperty("headless.mode", "false"));
     }
 
     public static boolean takeScreenshotOnFailure() {
-        return Boolean.parseBoolean(properties.getProperty("screenshot.on.failure", "true"));
+        return Boolean.parseBoolean(getProperty("screenshot.on.failure", "true"));
     }
 
     public static String getLogsPath() {
-        return properties.getProperty("logs.path", "logs/");
+        return getProperty("logs.path", "logs/");
     }
 
     public static String getScreenshotsPath() {
-        return properties.getProperty("screenshots.path", "screenshots/");
+        return getProperty("screenshots.path", "screenshots/");
     }
 
     public static String getTestDataPath() {
-        return properties.getProperty("testdata.path", "src/test/resources/testdata/");
+        return getProperty("testdata.path", "src/test/resources/testdata/");
     }
 
     public static String getValidUsername() {
-        return properties.getProperty("valid.username", "customer@practicesoftwaretesting.com");
+        return getProperty("valid.username", "customer@practicesoftwaretesting.com");
     }
 
     public static String getValidPassword() {
-        return properties.getProperty("valid.password", "welcome01");
+        return getProperty("valid.password", "welcome01");
     }
 
     public static String getInvalidUsername() {
-        return properties.getProperty("invalid.username", "invalid@example.com");
+        return getProperty("invalid.username", "invalid@example.com");
     }
 
     public static String getInvalidPassword() {
-        return properties.getProperty("invalid.password", "wrongpassword");
+        return getProperty("invalid.password", "wrongpassword");
     }
 
     public static String getApiBaseUrl() {
-        return properties.getProperty("api.base.url", "https://api.practicesoftwaretesting.com");
+        return getProperty("api.base.url", "https://api.practicesoftwaretesting.com");
     }
 }

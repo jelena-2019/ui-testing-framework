@@ -37,6 +37,9 @@ allure-report/
 # WebDriver
 .wdm/
 
+# Allure CLI cache
+.allure/
+
 # OS
 .DS_Store
 Thumbs.db
