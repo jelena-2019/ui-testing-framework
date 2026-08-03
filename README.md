@@ -1,5 +1,7 @@
 # Practice Software Testing - UI/API Testing Framework
 
+[![CI](https://github.com/jelena-2019/ui-testing-framework/actions/workflows/ci.yml/badge.svg)](https://github.com/jelena-2019/ui-testing-framework/actions/workflows/ci.yml)
+
 A comprehensive Java-based UI and API testing framework using Selenium WebDriver, REST Assured, JUnit 5, and the Page Object Model pattern. This framework is designed for testing the Practice Software Testing application (https://practicesoftwaretesting.com) and its REST API (https://api.practicesoftwaretesting.com).
 
 ## 📋 Overview
@@ -171,7 +173,12 @@ mvn test -Dtest='!*ApiTests'
 ```
 
 ### Run Tests in Headless Mode
-Edit `application.properties`:
+Run headless without editing files (recommended for CI):
+```bash
+mvn test -Dheadless.mode=true
+```
+
+Or set it in `application.properties`:
 ```properties
 headless.mode=true
 ```
@@ -179,6 +186,8 @@ Then run:
 ```bash
 mvn test
 ```
+
+> Note: any setting in `application.properties` can be overridden on the command line with `-D<key>=<value>` (e.g. `-Dbase.url=...`).
 
 ### Generate Allure Report
 ```bash
@@ -254,6 +263,30 @@ The Allure report includes:
 ### Other Output
 - **Logs** - Located in `logs/` directory
 - **Screenshots** - Located in `screenshots/` directory (captured on failure)
+
+## 🔄 CI/CD (GitHub Actions)
+
+The framework ships with a GitHub Actions workflow at `.github/workflows/ci.yml` that runs the full test suite (UI + API) on every push and pull request to `main`.
+
+**What the workflow does:**
+
+1. Checks out the repository and sets up **JDK 8 (Temurin)** with Maven dependency caching
+2. Installs **Chrome** via `browser-actions/setup-chrome`
+3. Runs all tests in headless mode: `mvn -B clean test -Dheadless.mode=true`
+4. Generates the **Allure report**: `mvn -B allure:report`
+5. Uploads the Allure report and Surefire results as GitHub Actions **artifacts** (downloadable from the Actions run page)
+
+**GitHub Pages deployment (optional):**
+
+On pushes to `main`, the workflow also publishes the Allure report to **GitHub Pages** via the `deploy-report` job. To enable it:
+
+1. Go to repo **Settings → Pages**
+2. Set **Source** to **"Deploy from a branch"** and select the **`gh-pages`** branch (`/root`)
+3. The report is then available at `https://<user>.github.io/ui-testing-framework/`
+
+**Running the workflow manually:** Go to the **Actions** tab → **CI** → **Run workflow**.
+
+**Badge:** the CI status badge at the top of this README reflects the latest workflow run.
 
 ## 📝 Test Cases - AC1 Details
 
@@ -408,7 +441,7 @@ page.load.timeout=30
 
 ### Framework Enhancements
 - Implement parallel test execution
-- Integrate with CI/CD pipeline (GitHub Actions, Jenkins)
+- ~~Integrate with CI/CD pipeline (GitHub Actions)~~ ✅ Done
 - ~~Add Allure reporting integration~~ ✅ Done
 - ~~Implement retry logic for flaky tests~~ ✅ Done
 - ~~Add API testing layer~~ ✅ Done
