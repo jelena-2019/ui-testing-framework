@@ -1,4 +1,4 @@
-# Practice Software Testing - UI Testing Framework
+# Practice Software Testing - UI/API Testing Framework
 
 A comprehensive Java-based UI testing framework using Selenium WebDriver, JUnit 5, and the Page Object Model pattern. This framework is designed for testing the Practice Software Testing application (https://practicesoftwaretesting.com).
 
