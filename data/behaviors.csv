@@ -1,0 +1,8 @@
+"Epic","Feature","Story","FAILED","BROKEN","PASSED","SKIPPED","UNKNOWN"
+"User Authentication","Login Functionality","Field Validation","0","0","2","0","0"
+"API Testing","User Authentication","Empty Credentials API Login","0","0","3","0","0"
+"User Authentication","Login Functionality","Valid Login","0","0","1","0","0"
+"User Authentication","Login Functionality","Page Elements","0","0","1","0","0"
+"User Authentication","Login Functionality","Invalid Login","0","0","1","0","0"
+"API Testing","User Authentication","Invalid API Login","0","0","1","0","0"
+"API Testing","User Authentication","Valid API Login","0","0","1","0","0"
