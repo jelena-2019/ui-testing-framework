@@ -210,6 +210,24 @@ public class LoginTests extends BaseTest {
         try {
             String validPassword = ConfigProperties.getValidPassword();
 
+            Allure.step("Verify login form is displayed", () -> {
+                assertThat(loginPage.isLoginFormDisplayed())
+                        .as("Login form should be displayed")
+                        .isTrue();
+            });
+
+            Allure.step("Verify email input is present", () -> {
+                assertThat(loginPage.isEmailInputDisplayed())
+                        .as("Email input field should be present")
+                        .isTrue();
+            });
+
+            Allure.step("Verify password input is present", () -> {
+                assertThat(loginPage.isPasswordInputDisplayed())
+                        .as("Password input field should be present")
+                        .isTrue();
+            });
+
             Allure.step("Enter password without email and submit", () -> {
                 loginPage.enterPassword(validPassword);
                 loginPage.clickLoginButton();
@@ -245,6 +263,24 @@ public class LoginTests extends BaseTest {
 
         try {
             String validEmail = ConfigProperties.getValidUsername();
+
+            Allure.step("Verify login form is displayed", () -> {
+                assertThat(loginPage.isLoginFormDisplayed())
+                        .as("Login form should be displayed")
+                        .isTrue();
+            });
+
+            Allure.step("Verify email input is present", () -> {
+                assertThat(loginPage.isEmailInputDisplayed())
+                        .as("Email input field should be present")
+                        .isTrue();
+            });
+
+            Allure.step("Verify password input is present", () -> {
+                assertThat(loginPage.isPasswordInputDisplayed())
+                        .as("Password input field should be present")
+                        .isTrue();
+            });
 
             Allure.step("Enter email without password and submit", () -> {
                 loginPage.enterEmail(validEmail);
