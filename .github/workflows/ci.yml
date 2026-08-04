@@ -27,9 +27,9 @@ jobs:
       - name: Set up Chrome
         uses: browser-actions/setup-chrome@v1
 
-      - name: Run tests (headful via Xvfb)
+      - name: Run tests (headless)
         timeout-minutes: 20
-        run: xvfb-run -a mvn -B clean test -Dexplicit.wait=30
+        run: mvn -B clean test -Dheadless.mode=true -Dexplicit.wait=30
 
       - name: Generate Allure report
         if: always()

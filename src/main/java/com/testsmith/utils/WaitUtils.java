@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.testsmith.config.ConfigProperties;
 
+import java.time.Duration;
+
 /**
  * Wait Utilities
  * Provides explicit wait methods for various conditions
@@ -22,7 +24,7 @@ public class WaitUtils {
 
     public WaitUtils(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, ConfigProperties.getExplicitWait());
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(ConfigProperties.getExplicitWait()));
     }
 
     /**
