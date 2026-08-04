@@ -8,7 +8,7 @@ A comprehensive Java-based UI and API testing framework using Selenium WebDriver
 
 This framework implements best practices for test automation:
 - **Page Object Model (POM)** - Encapsulates page elements and actions
-- **Selenium WebDriver** - Industry-standard UI automation tool
+- **Selenium WebDriver 4** - Industry-standard UI automation tool
 - **REST Assured** - Industry-standard API testing library
 - **JUnit 5 (Jupiter)** - Modern test framework with lifecycle hooks
 - **WebDriverManager** - Automatic driver management
@@ -272,7 +272,7 @@ The framework ships with a GitHub Actions workflow at `.github/workflows/ci.yml`
 
 1. Checks out the repository and sets up **JDK 8 (Temurin)** with Maven dependency caching
 2. Installs **Chrome** via `browser-actions/setup-chrome`
-3. Runs all tests **headful under Xvfb** (a virtual display) — this mirrors local execution and avoids Cloudflare bot-detection issues that can affect headless Chrome on datacenter IPs: `xvfb-run -a mvn -B clean test -Dexplicit.wait=30`
+3. Runs all tests in **headless mode** (Selenium 4 is required — Selenium 3 is incompatible with modern ChromeDriver): `mvn -B clean test -Dheadless.mode=true -Dexplicit.wait=30`
 4. Generates the **Allure report**: `mvn -B allure:report`
 5. Uploads the Allure report and Surefire results as GitHub Actions **artifacts** — even on failure (`if: always()`), so failed-run screenshots can be downloaded from the Actions run page for diagnosis
 

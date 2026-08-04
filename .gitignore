@@ -29,6 +29,7 @@ out/
 
 # Test Output
 test-output/
+surefire-reports/
 logs/
 screenshots/
 allure-results/
