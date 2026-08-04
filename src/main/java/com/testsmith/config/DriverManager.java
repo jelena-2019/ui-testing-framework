@@ -32,7 +32,11 @@ public class DriverManager {
                     initializeChromeDriver();
             }
 
-            driver.get().manage().window().maximize();
+            try {
+                driver.get().manage().window().maximize();
+            } catch (Exception e) {
+                logger.warn("Could not maximize window: {}", e.getMessage());
+            }
             logger.info("WebDriver initialized successfully");
         } catch (Exception e) {
             logger.error("Failed to initialize WebDriver: {}", e.getMessage(), e);
@@ -57,6 +61,8 @@ public class DriverManager {
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--disable-extensions");
         options.addArguments("--disable-popup-blocking");
+        options.addArguments("--window-size=1920,1080");
+        options.addArguments("--disable-blink-features=AutomationControlled");
 
         driver.set(new ChromeDriver(options));
     }

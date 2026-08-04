@@ -272,7 +272,7 @@ The framework ships with a GitHub Actions workflow at `.github/workflows/ci.yml`
 
 1. Checks out the repository and sets up **JDK 8 (Temurin)** with Maven dependency caching
 2. Installs **Chrome** via `browser-actions/setup-chrome`
-3. Runs all tests in **headless mode** (Selenium 4 is required — Selenium 3 is incompatible with modern ChromeDriver): `mvn -B clean test -Dheadless.mode=true -Dexplicit.wait=30`
+3. Runs all tests **headful under Xvfb** (a virtual display): `xvfb-run -a mvn -B clean test -Dexplicit.wait=30`. Headful mode is required because the app sits behind Cloudflare, which serves a "verify you are human" challenge to headless Chrome on datacenter IPs. The framework also runs Selenium 4 with anti-bot flags (`--disable-blink-features=AutomationControlled`) to keep the browser from looking automated.
 4. Generates the **Allure report**: `mvn -B allure:report`
 5. Uploads the Allure report and Surefire results as GitHub Actions **artifacts** — even on failure (`if: always()`), so failed-run screenshots can be downloaded from the Actions run page for diagnosis
 
