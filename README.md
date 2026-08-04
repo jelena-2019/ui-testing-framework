@@ -272,9 +272,9 @@ The framework ships with a GitHub Actions workflow at `.github/workflows/ci.yml`
 
 1. Checks out the repository and sets up **JDK 8 (Temurin)** with Maven dependency caching
 2. Installs **Chrome** via `browser-actions/setup-chrome`
-3. Runs all tests in headless mode: `mvn -B clean test -Dheadless.mode=true`
+3. Runs all tests **headful under Xvfb** (a virtual display) — this mirrors local execution and avoids Cloudflare bot-detection issues that can affect headless Chrome on datacenter IPs: `xvfb-run -a mvn -B clean test -Dexplicit.wait=30`
 4. Generates the **Allure report**: `mvn -B allure:report`
-5. Uploads the Allure report and Surefire results as GitHub Actions **artifacts** (downloadable from the Actions run page)
+5. Uploads the Allure report and Surefire results as GitHub Actions **artifacts** — even on failure (`if: always()`), so failed-run screenshots can be downloaded from the Actions run page for diagnosis
 
 **GitHub Pages deployment (optional):**
 
